@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Location;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class LocationController extends Controller
 {
     /**
@@ -12,39 +12,40 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        $location = Location::all();
+        return response()->json(['success'=> true, 'data'=>$location],200);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'location' => 'required|max:255|unique:locations',
+            'zone' =>'nullable',
+            'floor' =>'nullable'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'massage' => $validator->errors()],422);
+        }
+        else{
+            $sport = Location::create([
+                'location' => $request->location,
+                'zone' => $request->zone,
+                'floor' => $request->floor
+               
+            ]);
+            return response()->json(['success' => true, 'data' => $sport],200);
+            }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Location $location)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Location $location)
-    {
-        //
+        $event = Location::find($id)->event;
+        return response()->json(['success' => true, 'data' => $event],200);
     }
 
     /**
@@ -52,14 +53,16 @@ class LocationController extends Controller
      */
     public function update(Request $request, Location $location)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Location $location)
+    public function destroy($id)
     {
-        //
+        $location = Location::find($id);
+        $location->delete();
+        return response()->json(['success'=>true, 'data'=>$location],200);
     }
 }

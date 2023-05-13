@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Sport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
-
 class SportController extends Controller
 {
     /**
@@ -15,7 +13,6 @@ class SportController extends Controller
     public function index()
     {
         $sport = Sport::all();
-        // $sport = Sport::find();
         return response()->json(['success'=> true, 'data'=>$sport],200);
     }
     /**
@@ -30,9 +27,9 @@ class SportController extends Controller
 
         ]);
 
-        if ($validator->fails()) {
+ if ($validator->fails()) {
             return response()->json(['success' => false, 'massage' => $validator->errors()],422);
-        }
+        }       
         else{
         $sport = Sport::create([
             'sport_name' => $request->sport_name,
