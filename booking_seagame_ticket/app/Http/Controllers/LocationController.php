@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -44,6 +45,7 @@ class LocationController extends Controller
      */
     public function show($id)
     {
+        // $event = Event::all();
         $event = Location::find($id)->event;
         return response()->json(['success' => true, 'data' => $event],200);
     }
@@ -51,9 +53,25 @@ class LocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Location $location)
+    public function update(Request $request, $id)
     {
-        
+        $validator = Validator::make($request->all(), [
+            'location' => 'required|max:255',
+            'zone' =>'nullable',
+            'floor' =>'nullable'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'massage' => $validator->errors()],422);
+        }
+        else{
+            $location = Location::find($id)->update([
+                'location' => $request->location,
+                'zone' => $request->zone,
+                'floor' => $request->floor
+        ]);
+        return response()->json(['success' => true, 'data' =>  $location],200);
+        }
     }
 
     /**

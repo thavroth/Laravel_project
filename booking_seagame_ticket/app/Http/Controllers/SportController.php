@@ -27,7 +27,7 @@ class SportController extends Controller
 
         ]);
 
- if ($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(['success' => false, 'massage' => $validator->errors()],422);
         }       
         else{

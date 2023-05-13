@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string("location");
             $table->string("zone");
-            $table->string("floor");
+            $table->integer("floor");
         });
     }
 
