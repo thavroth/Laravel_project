@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('sports', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('sport_name');
-            $table->string('sport_category');
+            $table->string("sport_name");
+            $table->string("player_type");
         });
     }
 

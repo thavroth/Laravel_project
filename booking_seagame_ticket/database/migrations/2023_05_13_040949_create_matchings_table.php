@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('matchings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string("matching_country");
+            $table->string("time");
+            $table->string("matching_description");
             $table->unsignedBigInteger("event_id");
             $table->foreign("event_id")
             ->references("id")
