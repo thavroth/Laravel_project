@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MatchingController;
@@ -27,3 +28,5 @@ Route::resource('location',LocationController::class);
 Route::resource('event',EventController::class);
 Route::get('/findEventLocation/{id}',[EventController::class,"findEventLocation"]);
 Route::resource('matching',MatchingController::class);
+Route::resource('booking',BookingController::class);
+Route::post('/bookingEvent/{id}',[BookingController::class,"bookingEvent"]);

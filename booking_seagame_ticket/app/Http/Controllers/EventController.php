@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\EventResource;
 
 class EventController extends Controller
 {
@@ -13,7 +14,10 @@ class EventController extends Controller
      */
     public function index()
     {
+        $event_name = request('event_name');
         $event = Event::all();
+        $event = Event::where('event_name','like','%'.$event_name.'%')->get();
+        $event = Event::collection($event);
         return response()->json(['success'=> true, 'data'=>$event],200);
 
     }
