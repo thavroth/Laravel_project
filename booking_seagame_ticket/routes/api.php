@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MatchingController;
 use App\Http\Controllers\SportController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +26,4 @@ Route::resource('sport',SportController::class);
 Route::resource('location',LocationController::class);
 Route::resource('event',EventController::class);
 Route::get('/findEventLocation/{id}',[EventController::class,"findEventLocation"]);
+Route::resource('matching',MatchingController::class);

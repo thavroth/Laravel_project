@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -45,7 +44,6 @@ class LocationController extends Controller
      */
     public function show($id)
     {
-        // $event = Event::all();
         $event = Location::find($id)->event;
         return response()->json(['success' => true, 'data' => $event],200);
     }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Matching;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class MatchingController extends Controller
 {
     /**
@@ -12,15 +13,8 @@ class MatchingController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $matching = Matching::all();
+        return response()->json(['success'=>true, 'data'=>$matching], 200);
     }
 
     /**
@@ -28,38 +22,68 @@ class MatchingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'matching_country'=> 'required',
+            'time'=>'required|max:5',
+            'matching_description'=>'required|max:500',
+            'event_id'=>'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success'=>false, 'error'=>$validator->errors()],422);
+        }
+        else{
+            $matching = Matching::create([
+                'matching_country'=> $request -> matching_country,
+                'time' => $request -> time,
+                'matching_description' => $request -> matching_description,
+                'event_id' => $request -> event_id
+            ]);
+            return response()->json(['success'=>true, 'data'=>$matching], 201);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Matching $matching)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Matching $matching)
-    {
-        //
+        $matching = Event::find($id)->matching;
+        return response()->json(['success'=>true, 'data'=>$matching], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Matching $matching)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'matching_country'=> 'required',
+            'time'=>'required|max:5',
+            'matching_description'=>'required|500',
+            'event_id'=>'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'massage' => $validator->errors()],422);
+        }
+        else{
+            $matching = Matching::find($id)->update([
+                'matching_country'=> $request -> matching_country,
+                'time' => $request -> time,
+                'matching_description' => $request -> matching_description,
+                'event_id' => $request -> event_id
+        ]);
+        return response()->json(['success' => true, 'data' =>  $matching],200);
+        }
     }
 
-    /**
+    /*
      * Remove the specified resource from storage.
      */
-    public function destroy(Matching $matching)
+    public function destroy($id)
     {
-        //
+        $matching = Matching::find($id);
+        $matching->delete();
+        return response()->json(['success'=>true, 'message'=>"Delete matching succesfully"], 200);
     }
 }

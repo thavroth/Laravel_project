@@ -12,7 +12,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
 
@@ -21,7 +21,7 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
