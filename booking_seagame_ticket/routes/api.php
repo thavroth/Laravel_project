@@ -29,4 +29,4 @@ Route::resource('event',EventController::class);
 Route::get('/findEventLocation/{id}',[EventController::class,"findEventLocation"]);
 Route::resource('matching',MatchingController::class);
 Route::resource('booking',BookingController::class);
-Route::post('/bookingEvent/{id}',[BookingController::class,"bookingEvent"]);
+Route::post('/bookingEvent',[BookingController::class,"bookingEvent"]);

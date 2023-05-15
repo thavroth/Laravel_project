@@ -10,23 +10,35 @@ use Illuminate\Support\Facades\DB;
 class BookingController extends Controller
 {
    
-    public function bookingEvent($id)
+    public function bookingEvent(Request $request)
     {
-        $id = Event::find($id) ->id;
-        $data= DB::select('SELECT amount_of_ticket FROM events WHERE id=?', [$id]);
-        foreach ($data as $item) {
-            foreach($item as $event_ticket){
-            $amount_of_ticket = $event_ticket;
-            if($amount_of_ticket>0){
-               DB::insert("INSERT INTO bookings (event_id) VALUES ($id)");
-               $amount_of_ticket = $amount_of_ticket -1;
-               DB::update("UPDATE events SET amount_of_ticket =  $amount_of_ticket WHERE id = $id");
-               return "Booking Success!";
-            }
-            else{
-                return "No Ticket Available!";
-            }
+        $booking = Booking::create([
+            'event_id'=>$request->event_id
+        ]);
+
+        $event= Event::all();
+        foreach($event as $event_id){
+            if($event_id['id'] == $booking['event_id']){
+                $id = $event_id['id'];
+                $event_ticket= DB::select('SELECT amount_of_ticket FROM events WHERE id=?', [$id]);
+                foreach ($event_ticket as $amount_ticket) {
+                    foreach($amount_ticket as $ticket){
+                        $number_of_ticket = $ticket;
+                        if($number_of_ticket>0){
+                            $number_of_ticket = $number_of_ticket -1;
+                            DB::update("UPDATE events SET amount_of_ticket =  $number_of_ticket WHERE id = $id");
+                            return "Booking Success!";
+                            }
+                        else{
+                            DB::delete('DELETE FROM bookings WHERE event_id=?', [$id]);
+                            return "No Ticket Available!";
+                        }
+                    }
+                }
+            }  
         }
-        }
+    
+      
+      
     }
 }
