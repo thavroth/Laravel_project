@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\EventResource;
+use App\Http\Resources\EventResource as ResourcesEventResource;
 
 class EventController extends Controller
 {
@@ -17,7 +17,7 @@ class EventController extends Controller
         $event_name = request('event_name');
         $event = Event::all();
         $event = Event::where('event_name','like','%'.$event_name.'%')->get();
-        $event = Event::collection($event);
+        $event = ResourcesEventResource::collection($event);
         return response()->json(['success'=> true, 'data'=>$event],200);
 
     }
@@ -28,7 +28,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'event_name'=> 'required|max:500|unique:events',
+            'event_name'=> 'required|max:500',
             'date'=>'required|max:20',
             'amount_of_ticket'=>'required|max:4',
             'sport_id'=>'required',
