@@ -19,7 +19,6 @@ class EventResource extends JsonResource
             'event_name'=>$this->event_name,
             'date'=>$this->date,
             'amount_of_ticket'=>$this->amount_of_ticket,
-            'sport_id'=>$this->sport_id,
             'location_id'=>$this->location_id,
         ];
     }

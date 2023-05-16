@@ -31,7 +31,6 @@ class EventController extends Controller
             'event_name'=> 'required|max:500',
             'date'=>'required|max:20',
             'amount_of_ticket'=>'required|max:4',
-            'sport_id'=>'required',
             'location_id'=>'required',
         ]);
         if($validator->fails()){
@@ -42,7 +41,6 @@ class EventController extends Controller
                 'event_name'=>$request->event_name,
                 'date'=>$request->date,
                 'amount_of_ticket'=>$request->amount_of_ticket,
-                'sport_id'=>$request->sport_id,
                 'location_id'=>$request->location_id
             ]);
             return response()->json(['success'=>true,'data'=>$event],200);
@@ -72,7 +70,6 @@ class EventController extends Controller
             'event_name'=> 'required|max:500',
             'date'=>'required|max:20',
             'amount_of_ticket'=>'required|max:4',
-            'sport_id'=>'required',
             'location_id'=>'required',
         ]);
 
@@ -84,7 +81,6 @@ class EventController extends Controller
                 'event_name'=>$request->event_name,
                 'date'=>$request->date,
                 'amount_of_ticket'=>$request->amount_of_ticket,
-                'sport_id'=>$request->sport_id,
                 'location_id'=>$request->location_id,
         ]);
         return response()->json(['success' => true, 'data' => $event],200);

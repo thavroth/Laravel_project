@@ -19,7 +19,12 @@ return new class extends Migration
             ->references("id")
             ->on("events")
             ->onDelete("cascade");
-            
+
+            $table->unsignedBigInteger("zone_id");
+            $table->foreign("zone_id")
+            ->references("id")
+            ->on("zones")
+            ->onDelete("cascade");
         });
     }
 

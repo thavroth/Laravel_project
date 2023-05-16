@@ -5,7 +5,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MatchingController;
 use App\Http\Controllers\SportController;
-
+use App\Http\Controllers\ZoneController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +29,5 @@ Route::resource('event',EventController::class);
 Route::get('/findEventLocation/{id}',[EventController::class,"findEventLocation"]);
 Route::resource('matching',MatchingController::class);
 Route::resource('booking',BookingController::class);
+Route::resource('zone',ZoneController::class);
 Route::post('/bookingEvent',[BookingController::class,"bookingEvent"]);

@@ -13,10 +13,15 @@ class Matching extends Model
         "matching_country",
         "time",
         "matching_description",
+        "sport_id",
         "event_id"
     ];
 
     public function event():BelongsTo{
         return $this->belongsTo(Event::class);
+    }
+
+    public function sport():BelongsTo{
+        return $this->belongsTo(Sport::class);
     }
 }

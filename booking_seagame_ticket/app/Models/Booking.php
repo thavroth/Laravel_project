@@ -10,11 +10,15 @@ class Booking extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "event_id"
+        "event_id",
+        "zone_id",
     ];
 
     public function event():BelongsTo{
         return $this->belongsTo(Event::class);
+    }
+    public function zone():BelongsTo{
+        return $this->belongsTo(Zone::class);
     }
 
  

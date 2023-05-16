@@ -15,7 +15,7 @@ class Sport extends Model
         
     ];
     
-    public function event():HasMany{
-        return $this->hasMany(Event::class);
+    public function matching():HasMany{
+        return $this->hasMany(Matching::class);
     }
 }

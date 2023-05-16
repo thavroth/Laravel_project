@@ -25,7 +25,8 @@ class MatchingController extends Controller
         $validator = Validator::make($request->all(),[
             'matching_country'=> 'required',
             'time'=>'required|max:5',
-            'matching_description'=>'required|max:500',
+            'matching_description'=>'nullable',
+            'sport_id'=>'required',
             'event_id'=>'required'
         ]);
         if ($validator->fails()) {
@@ -36,6 +37,7 @@ class MatchingController extends Controller
                 'matching_country'=> $request -> matching_country,
                 'time' => $request -> time,
                 'matching_description' => $request -> matching_description,
+                'sport_id'=>$request -> sport_id,
                 'event_id' => $request -> event_id
             ]);
             return response()->json(['success'=>true, 'data'=>$matching], 201);
@@ -59,7 +61,8 @@ class MatchingController extends Controller
         $validator = Validator::make($request->all(), [
             'matching_country'=> 'required',
             'time'=>'required|max:5',
-            'matching_description'=>'required|500',
+            'matching_description'=>'nullable',
+            'sport_id'=>'required',
             'event_id'=>'required'
         ]);
 
@@ -71,6 +74,7 @@ class MatchingController extends Controller
                 'matching_country'=> $request -> matching_country,
                 'time' => $request -> time,
                 'matching_description' => $request -> matching_description,
+                'sport_id'=> $request->sport_id,
                 'event_id' => $request -> event_id
         ]);
         return response()->json(['success' => true, 'data' =>  $matching],200);

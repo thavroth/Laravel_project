@@ -4,41 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Event;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-   
     public function bookingEvent(Request $request)
     {
         $booking = Booking::create([
-            'event_id'=>$request->event_id
+            'event_id'=>$request->event_id,
+            'zone_id'=>$request->zone_id
         ]);
-
-        $event= Event::all();
-        foreach($event as $event_id){
-            if($event_id['id'] == $booking['event_id']){
-                $id = $event_id['id'];
-                $event_ticket= DB::select('SELECT amount_of_ticket FROM events WHERE id=?', [$id]);
-                foreach ($event_ticket as $amount_ticket) {
-                    foreach($amount_ticket as $ticket){
-                        $number_of_ticket = $ticket;
-                        if($number_of_ticket>0){
-                            $number_of_ticket = $number_of_ticket -1;
-                            DB::update("UPDATE events SET amount_of_ticket =  $number_of_ticket WHERE id = $id");
+        $events= Event::all();
+        $zones = Zone::all();
+       
+        foreach($events as $event){
+            foreach($zones as $zone){
+                if(($event['id'] == $booking['event_id']) && ($zone['id'] == $booking['zone_id']) && ($event['location_id'] == $zone['location_id'])){
+                    $event_id = $event['id'];
+                    $zone_id = $zone['id'];
+                    $event_ticket = $event['amount_of_ticket'];
+                    $zone_seats = $zone['number_of_seat'];
+                    $zone_name = $zone['zone_name'];
+                  
+                    if(($event_ticket>0) && ($zone_seats>0)){
+                        $event_ticket = $event_ticket -1;
+                        $zone_seats = $zone_seats -1;
+                        DB::update("UPDATE events SET amount_of_ticket = $event_ticket WHERE id = $event_id");
+                        DB::update("UPDATE zones SET number_of_seat = $zone_seats WHERE id = $zone_id");
                             return "Booking Success!";
-                            }
-                        else{
-                            DB::delete('DELETE FROM bookings WHERE event_id=?', [$id]);
+                    }
+                    elseif($event_ticket>0 && $zone_seats ==0){
+                        DB::delete('DELETE FROM bookings WHERE event_id=?', [$event_id]);
+                        return "Zone ". $zone_name . " No Seat Available!";
+
+                    }
+                    else{
+                            DB::delete('DELETE FROM bookings WHERE event_id=?', [$event_id]);
                             return "No Ticket Available!";
-                        }
                     }
                 }
-            }  
+                elseif($event['location_id'] != $zone['location_id']) {
+                    return "Zone does not exist in this event!";
+                }
+                
+            }
+        } 
         }
-    
-      
-      
-    }
 }
+

@@ -14,7 +14,6 @@ class Event extends Model
         "event_name",
         "date",
         "amount_of_ticket",
-        "sport_id",
         "location_id",
     ];
 
@@ -26,9 +25,7 @@ class Event extends Model
         return $this->hasMany(Bookings::class);
     }
 
-    public function sport():BelongsTo{
-        return $this->belongsTo(Sport::class);
-    }
+   
 
     public function location():BelongsTo{
         return $this->belongsTo(Location::class);

@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('zones', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string("location");
-            $table->integer("floor");
+            $table->string('zone_name');
+            $table->integer("number_of_seat");
+            $table->unsignedBigInteger("location_id");
+            $table->foreign("location_id")
+            ->references("id")
+            ->on("locations")
+            ->onDelete("cascade");
+
         });
     }
 
@@ -24,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('zones');
     }
 };

@@ -17,6 +17,11 @@ return new class extends Migration
             $table->string("matching_country");
             $table->string("time");
             $table->string("matching_description");
+            $table->unsignedBigInteger("sport_id");
+            $table->foreign("sport_id")
+            ->references("id")
+            ->on("sports")
+            ->onDelete("cascade");
             $table->unsignedBigInteger("event_id");
             $table->foreign("event_id")
             ->references("id")

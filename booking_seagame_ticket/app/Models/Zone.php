@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
-class Location extends Model
+class Zone extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "location",
-        "floor"
+        'zone_name',
+        'number_of_seat',
+        'location_id',
     ];
 
-    public function event():HasMany{
-        return $this->hasMany(Event::class);
+    public function booking():HasMany{
+        return $this->hasMany(Bookings::class);
     }
 }

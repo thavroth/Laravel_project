@@ -17,11 +17,7 @@ return new class extends Migration
             $table->string("event_name");
             $table->string("date");
             $table->integer("amount_of_ticket");
-            $table->unsignedBigInteger("sport_id");
-            $table->foreign("sport_id")
-            ->references("id")
-            ->on("sports")
-            ->onDelete("cascade");
+           
             $table->unsignedBigInteger("location_id");
             $table->foreign("location_id")
             ->references("id")

@@ -22,8 +22,7 @@ class LocationController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'location' => 'required|max:255|unique:locations',
-            'zone' =>'nullable',
-            'floor' =>'nullable'
+            'floor' =>'nullable|max:10'
         ]);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'massage' => $validator->errors()],422);
@@ -31,7 +30,6 @@ class LocationController extends Controller
         else{
             $sport = Location::create([
                 'location' => $request->location,
-                'zone' => $request->zone,
                 'floor' => $request->floor
                
             ]);
@@ -55,7 +53,6 @@ class LocationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'location' => 'required|max:255',
-            'zone' =>'nullable',
             'floor' =>'nullable'
         ]);
 
@@ -65,7 +62,6 @@ class LocationController extends Controller
         else{
             $location = Location::find($id)->update([
                 'location' => $request->location,
-                'zone' => $request->zone,
                 'floor' => $request->floor
         ]);
         return response()->json(['success' => true, 'data' =>  $location],200);
