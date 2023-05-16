@@ -44,11 +44,7 @@ class BookingController extends Controller
                             DB::delete('DELETE FROM bookings WHERE event_id=?', [$event_id]);
                             return "No Ticket Available!";
                     }
-                }
-                elseif($event['location_id'] != $zone['location_id']) {
-                    return "Zone does not exist in this event!";
-                }
-                
+                } 
             }
         } 
         }
