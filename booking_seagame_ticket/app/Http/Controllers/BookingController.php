@@ -52,6 +52,6 @@ class BookingController extends Controller
         }
         DB::delete('DELETE FROM bookings WHERE id=?', [$booking['id']]);
         return $massage_error;
-        }
+    }
 }
 
