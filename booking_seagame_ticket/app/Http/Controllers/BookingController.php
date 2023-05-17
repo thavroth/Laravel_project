@@ -18,10 +18,13 @@ class BookingController extends Controller
         ]);
         $events= Event::all();
         $zones = Zone::all();
-       
+        $massage_error = "";
         foreach($events as $event){
             foreach($zones as $zone){
-                if(($event['id'] == $booking['event_id']) && ($zone['id'] == $booking['zone_id']) && ($event['location_id'] == $zone['location_id'])){
+                if($event['location_id'] != $zone['location_id']){
+                    $massage_error = "This Zone does not exist in this event!";
+                }
+                elseif(($event['id'] == $booking['event_id']) && ($zone['id'] == $booking['zone_id']) && ($event['location_id'] == $zone['location_id'])){
                     $event_id = $event['id'];
                     $zone_id = $zone['id'];
                     $event_ticket = $event['amount_of_ticket'];
@@ -33,20 +36,21 @@ class BookingController extends Controller
                         $zone_seats = $zone_seats -1;
                         DB::update("UPDATE events SET amount_of_ticket = $event_ticket WHERE id = $event_id");
                         DB::update("UPDATE zones SET number_of_seat = $zone_seats WHERE id = $zone_id");
-                            return "Booking Success!";
+                        return "Booking Success!";
                     }
                     elseif($event_ticket>0 && $zone_seats ==0){
                         DB::delete('DELETE FROM bookings WHERE event_id=?', [$event_id]);
                         return "Zone ". $zone_name . " No Seat Available!";
-
                     }
                     else{
-                            DB::delete('DELETE FROM bookings WHERE event_id=?', [$event_id]);
-                            return "No Ticket Available!";
+                        DB::delete('DELETE FROM bookings WHERE event_id=?', [$event_id]);
+                        return "No Ticket Available!";
+                          
                     }
                 } 
             }
-        } 
+        }
+        return $massage_error;
         }
 }
 
