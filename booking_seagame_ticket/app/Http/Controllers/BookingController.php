@@ -39,17 +39,18 @@ class BookingController extends Controller
                         return "Booking Success!";
                     }
                     elseif($event_ticket>0 && $zone_seats ==0){
-                        DB::delete('DELETE FROM bookings WHERE event_id=?', [$event_id]);
+                        DB::delete('DELETE FROM bookings WHERE id=?', [$booking['id']]);
                         return "Zone ". $zone_name . " No Seat Available!";
                     }
                     else{
-                        DB::delete('DELETE FROM bookings WHERE event_id=?', [$event_id]);
+                        DB::delete('DELETE FROM bookings WHERE id=?', [$booking['id']]);
                         return "No Ticket Available!";
                           
                     }
                 } 
             }
         }
+        DB::delete('DELETE FROM bookings WHERE id=?', [$booking['id']]);
         return $massage_error;
         }
 }
